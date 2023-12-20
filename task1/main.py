@@ -1,12 +1,15 @@
 from datetime import datetime
 from queue import Queue
+import time
 
 # create a queue
 queue = Queue()
 task_number = 0
+i = 1
 
 def generate_request(queue):
   global task_number
+
   new_task = { "task_number": task_number, "task_time": datetime.today() }
   task_number += 1
   queue.put(new_task) 
@@ -20,11 +23,16 @@ def process_request(queue):
 
 def main():
     print ("Starting...")
-    i = 1
-    while i != '0':
-        generate_request(queue)
-        process_request(queue)
-        i = input ("press any key to continue... or press 0 to finish program  ")
+
+    while True:
+        try:
+            generate_request(queue)
+            time.sleep(1)
+            process_request(queue)
+        except KeyboardInterrupt:
+            break
+        
+
 
 if __name__ == "__main__":
     main()
